@@ -1,0 +1,76 @@
+{
+  "name": "dataland-backend",
+  "description": "Back-end server for the Data Land project",
+  "version": "0.1.0",
+  "homepage": "",
+  "private": true,
+  "main": "src",
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "feathers"
+  ],
+  "author": {
+    "name": "Sayamindu Dasgupta",
+    "email": "sayamindu@unc.edu"
+  },
+  "contributors": [],
+  "bugs": {},
+  "directories": {
+    "lib": "src",
+    "test": "test/",
+    "config": "config/"
+  },
+  "engines": {
+    "node": "^12.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "scripts": {
+    "test": "npm run lint && npm run coverage",
+    "coverage": "nyc npm run mocha",
+    "lint": "eslint src/. test/. --config .eslintrc.json",
+    "dev": "nodemon src/",
+    "start": "node src/",
+    "mocha": "NODE_ENV=test mocha test/ --recursive --exit",
+    "db:migrate": "sequelize-cli db:migrate",
+    "db:migrate:undo": "sequelize-cli db:migrate:undo",
+    "db:seed:all": "sequelize-cli db:seed:all",
+    "db:seed:undo:all": "sequelize-cli db:seed:undo:all"
+  },
+  "standard": {
+    "env": [
+      "mocha"
+    ],
+    "ignore": []
+  },
+  "dependencies": {
+    "@feathersjs/authentication": "^4.5.3",
+    "@feathersjs/authentication-local": "^4.5.4",
+    "@feathersjs/authentication-oauth": "^4.5.4",
+    "@feathersjs/configuration": "^4.5.3",
+    "@feathersjs/errors": "^4.5.3",
+    "@feathersjs/express": "^4.5.4",
+    "@feathersjs/feathers": "^4.5.3",
+    "@feathersjs/socketio": "^4.5.4",
+    "@feathersjs/transport-commons": "^4.5.3",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "feathers-authentication-hooks": "^1.0.2",
+    "feathers-hooks-common": "^5.0.3",
+    "feathers-sequelize": "^6.2.0",
+    "helmet": "^3.23.0",
+    "mysql2": "^2.1.0",
+    "sequelize": "^5.21.13",
+    "serve-favicon": "^2.5.0",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "axios": "^0.19.2",
+    "bcrypt": "^5.0.0",
+    "eslint": "^6.8.0",
+    "mocha": "^7.2.0",
+    "nodemon": "^2.0.4",
+    "nyc": "^15.1.0",
+    "sequelize-cli": "^5.5.1"
+  }
+}
