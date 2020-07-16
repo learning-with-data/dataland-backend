@@ -69,13 +69,13 @@ describe("'projectblobs' service", () => {
     await assert.rejects(app.service("projectblobs").get(1, params), {name: "MethodNotAllowed"});
 
     // create()
-    await assert.rejects(app.service("projectblobs").create({blob: new ArrayBuffer(2), projectId: 1}, params), {name: "MethodNotAllowed"});
+    await assert.rejects(app.service("projectblobs").create({projectBlob: new ArrayBuffer(2), projectId: 1}, params), {name: "MethodNotAllowed"});
 
     // update()
-    await assert.rejects(app.service("projectblobs").update(1, {blob: new ArrayBuffer(2), projectId: 1}, params), {name: "MethodNotAllowed"});
+    await assert.rejects(app.service("projectblobs").update(1, {projectBlob: new ArrayBuffer(2), projectId: 1}, params), {name: "MethodNotAllowed"});
 
     // patch()
-    await assert.rejects(app.service("projectblobs").patch(1, {blob: new ArrayBuffer(2), projectId: 1}, params), {name: "MethodNotAllowed"});
+    await assert.rejects(app.service("projectblobs").patch(1, {projectBlob: new ArrayBuffer(2), projectId: 1}, params), {name: "MethodNotAllowed"});
 
     // remove()
     await assert.rejects(app.service("projectblobs").remove(1, params), {name: "MethodNotAllowed"});

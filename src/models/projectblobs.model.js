@@ -6,7 +6,7 @@ const DataTypes = Sequelize.DataTypes;
 module.exports = function (app) {
   const sequelizeClient = app.get("sequelizeClient");
   const projectblobs = sequelizeClient.define("projectblobs", {
-    blob: {
+    projectBlob: {
       type: DataTypes.BLOB("medium"),
       allowNull: false
     }

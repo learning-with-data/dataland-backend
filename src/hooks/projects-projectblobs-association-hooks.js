@@ -9,13 +9,13 @@ exports.getProjectBlobforProject = async (context) => {
   const projectBlobs = await context.app.service("projectblobs").find({
     query: {
       projectId: context.id,
-      $select: ["blob"],
+      $select: ["projectBlob"],
       $sort: { createdAt: -1 },
       $limit: 1,
     },
   });
   const projectBlob = projectBlobs.total ? projectBlobs.data[0] : {blob: null};
-  context.result.projectBlob = projectBlob.blob;
+  context.result.projectBlob = projectBlob.projectBlob;
 
   return context;
 };
@@ -35,7 +35,7 @@ exports.patchProjectBlobforProject = async (context) => {
   }
   
   // Save projectBlob the database
-  await context.app.service("projectblobs").create({blob: projectBlob, projectId: context.id});
+  await context.app.service("projectblobs").create({projectBlob: projectBlob, projectId: context.id});
   
   // Reattach projectBlob to the result to be sent back to the client
   context.result.projectBlob = projectBlob;
