@@ -51,3 +51,4 @@ jobs:
         DATALAND_BACKEND_PORT: 3030
         DATALAND_BACKEND_SECRET: naeVee2bajiivepheeleitohsei9apie
         DATALAND_BACKEND_DB_URI: ${{ format('mysql://user:password@localhost:{0}/test', job.services.mariadb.ports[3306]) }}
+        DATALAND_BACKEND_INVITATION_CODE: chang3m3

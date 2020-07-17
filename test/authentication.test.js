@@ -10,7 +10,8 @@ describe("authentication", () => {
     const userInfo = {
       email: "someone@example.com",
       username: "someone",
-      password: "supersecret"
+      password: "supersecret",
+      invitationCode: "chang3m3",
     };
 
     before(async () => {

@@ -28,5 +28,6 @@
       "passwordField": "password"
     }
   },
-  "mysql": "DATALAND_BACKEND_DB_URI"
+  "mysql": "DATALAND_BACKEND_DB_URI",
+  "invitation_code": "DATALAND_BACKEND_INVITATION_CODE"
 }
