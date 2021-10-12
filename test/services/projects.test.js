@@ -51,6 +51,32 @@ describe("'projects' service", () => {
     assert.equal(project.userId, user1.id);
   });
 
+  it("creates multiple projects and assigns the right userId to each", async () => {
+    const params = { user: user1 };
+
+    const projects = await app.service("projects").create(
+      [
+        {
+          title: "Multi test project 1",
+          description: "Test description",
+        },
+        {
+          title: "Multi test project 2",
+          description: "Test description",
+        },
+        {
+          title: "Multi test project 3",
+          description: "Test description",
+        },
+      ],
+      params
+    );
+
+    assert.equal(projects[0].userId, user1.id);
+    assert.equal(projects[1].userId, user1.id);
+    assert.equal(projects[2].userId, user1.id);
+  });
+
   it("creates a project and allows the creator to patch the project", async () => {
     const params = { user: user1 };
 
