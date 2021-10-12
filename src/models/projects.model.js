@@ -23,6 +23,14 @@ module.exports = function (app) {
       type: DataTypes.BLOB,
       allowNull: true
     },
+    notebookId: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    notebookSequence: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    }
   }, {
     hooks: {
       beforeCount(options) {
