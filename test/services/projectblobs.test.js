@@ -26,7 +26,7 @@ describe("'projectblobs' service", () => {
   });
 
   it("associates the supplied projectBlob when a project is created", async () => {
-    const projectBlob = new ArrayBuffer(3);
+    const projectBlob = crypto.randomBytes(3);
     const p = await app.service("projects").create({
       title: "New blob test",
       description: "New description",
@@ -36,6 +36,7 @@ describe("'projectblobs' service", () => {
       .service("projectblobs")
       .find({ query: { projectId: p.id } });
     assert.equal(blobs.total, 1);
+    assert.equal(Buffer.compare(blobs.data[0].projectBlob, projectBlob), 0);
   });
 
   it("associates the supplied projectBlobs (or not) when multiple projects are created", async () => {
@@ -99,17 +100,18 @@ describe("'projectblobs' service", () => {
   });
 
   it("creates a projectBlob property for project patch where projectBlob is supplied", async () => {
-    const projectBlob = new ArrayBuffer(3);
+    const projectBlob = crypto.randomBytes(3);
     const p = await app.service("projects").patch(project.id, { projectBlob });
     assert.deepEqual(p.projectBlob, projectBlob);
     const blobs = await app
       .service("projectblobs")
       .find({ query: { projectId: project.id } });
     assert.equal(blobs.total, 1);
+    assert.equal(Buffer.compare(blobs.data[0].projectBlob, projectBlob), 0);
   });
 
-  it("does not create a new projectBlob property with a project patch w/ an empty projectBuffer", async () => {
-    const projectBlob = new ArrayBuffer(0);
+  it("does not create a new projectBlob property with a project patch w/ an empty projectBlob", async () => {
+    const projectBlob = crypto.randomBytes(0);
     const p = await app.service("projects").patch(project.id, { projectBlob });
     assert.notDeepEqual(p.projectBlob, projectBlob);
     const blobs = await app
@@ -118,14 +120,20 @@ describe("'projectblobs' service", () => {
     assert.equal(blobs.total, 1);
   });
 
-  it("creates a projectBlob property with the last patch w/ non-empty projectBuffer call", async () => {
-    const projectBlob = new ArrayBuffer(5);
+  it("creates a projectBlob property with the last patch w/ non-empty projectBlob call", async () => {
+    const projectBlob = crypto.randomBytes(5);
     const p = await app.service("projects").patch(project.id, { projectBlob });
     assert.deepEqual(p.projectBlob, projectBlob);
-    const blobs = await app
-      .service("projectblobs")
-      .find({ query: { projectId: project.id } });
+    const blobs = await app.service("projectblobs").find({
+      query: {
+        projectId: project.id,
+        $sort: {
+          createdAt: 1,
+        },
+      },
+    });
     assert.equal(blobs.total, 2);
+    assert.equal(Buffer.compare(blobs.data[1].projectBlob, projectBlob), 0);
   });
 
   it("rejects external calls", async () => {
@@ -145,7 +153,7 @@ describe("'projectblobs' service", () => {
     await assert.rejects(
       app
         .service("projectblobs")
-        .create({ projectBlob: new ArrayBuffer(2), projectId: 1 }, params),
+        .create({ projectBlob: crypto.randomBytes(9), projectId: 1 }, params),
       { name: "MethodNotAllowed" }
     );
 
@@ -153,7 +161,11 @@ describe("'projectblobs' service", () => {
     await assert.rejects(
       app
         .service("projectblobs")
-        .update(1, { projectBlob: new ArrayBuffer(2), projectId: 1 }, params),
+        .update(
+          1,
+          { projectBlob: crypto.randomBytes(9), projectId: 1 },
+          params
+        ),
       { name: "MethodNotAllowed" }
     );
 
@@ -161,7 +173,7 @@ describe("'projectblobs' service", () => {
     await assert.rejects(
       app
         .service("projectblobs")
-        .patch(1, { projectBlob: new ArrayBuffer(2), projectId: 1 }, params),
+        .patch(1, { projectBlob: crypto.randomBytes(9), projectId: 1 }, params),
       { name: "MethodNotAllowed" }
     );
 
