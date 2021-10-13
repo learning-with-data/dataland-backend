@@ -2,6 +2,7 @@ const { authenticate } = require("@feathersjs/authentication").hooks;
 const { Forbidden } = require("@feathersjs/errors");
 const { disallow } = require("feathers-hooks-common");
 const {
+  createProjectBlobforProject,
   getProjectBlobforProject,
   patchProjectBlobforProject,
 } = require("../../hooks/projects-projectblobs-association-hooks");
@@ -51,7 +52,7 @@ module.exports = {
     all: [],
     find: [],
     get: [getProjectBlobforProject],
-    create: [],
+    create: [createProjectBlobforProject],
     update: [],
     patch: [patchProjectBlobforProject],
     remove: [],

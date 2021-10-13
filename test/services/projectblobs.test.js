@@ -1,5 +1,6 @@
 const assert = require("assert");
 const app = require("../../src/app");
+const crypto = require("crypto");
 
 describe("'projectblobs' service", () => {
   let user1;
@@ -22,6 +23,63 @@ describe("'projectblobs' service", () => {
   it("registered the service", () => {
     const service = app.service("projectblobs");
     assert.ok(service, "Registered the service");
+  });
+
+  it("associates the supplied projectBlob when a project is created", async () => {
+    const projectBlob = new ArrayBuffer(3);
+    const p = await app.service("projects").create({
+      title: "New blob test",
+      description: "New description",
+      projectBlob: projectBlob,
+    });
+    const blobs = await app
+      .service("projectblobs")
+      .find({ query: { projectId: p.id } });
+    assert.equal(blobs.total, 1);
+  });
+
+  it("associates the supplied projectBlobs (or not) when multiple projects are created", async () => {
+    const projects = [
+      {
+        title: "Multi blob test 1",
+        description: "Test description",
+        projectBlob: crypto.randomBytes(2),
+      },
+      {
+        title: "Multi blob test 2",
+        description: "Test description",
+        projectBlob: crypto.randomBytes(4),
+      },
+      {
+        title: "Multi blob test 3",
+        description: "Test description",
+      },
+      {
+        title: "Multi blob test 4",
+        description: "Test description",
+        projectBlob: crypto.randomBytes(8),
+      },
+    ];
+
+    const ps = await app.service("projects").create(projects);
+    let i = 0;
+    for (const p of ps) {
+      const blobs = await app
+        .service("projectblobs")
+        .find({ query: { projectId: p.id } });
+      if (i == 2) {
+        // Special case where there should be no projectblob
+        assert.equal(blobs.total, 0);
+      } else {
+        assert.equal(blobs.total, 1);
+        assert.equal(
+          Buffer.compare(blobs.data[0].projectBlob, projects[i].projectBlob),
+          0
+        );
+      }
+
+      i++;
+    }
   });
 
   it("associates a projectBlob property (null by default) to projects.get", async () => {
