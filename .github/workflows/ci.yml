@@ -27,7 +27,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        node-version: [14.x, 16.x, 18.x]
 
     steps:
     - uses: actions/checkout@v1 # Based on https://firefart.at/post/using-mysql-service-with-github-actions/
