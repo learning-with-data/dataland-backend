@@ -16,9 +16,9 @@ const schema = {
       required: true,
       hidden: true,
     },
-  },
-  invitationCode: {
-    required: true,
+    invitationCode: {
+      required: true,
+    }
   }
 };
 
