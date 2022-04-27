@@ -17,6 +17,9 @@ const schema = {
       hidden: true,
     },
   },
+  invitationCode: {
+    required: true,
+  }
 };
 
 async function main() {
@@ -27,7 +30,7 @@ async function main() {
     username: result.username,
     password: result.password,
     admin: true,
-    invitationCode: "chang3m3",
+    invitationCode: result.invitationCode,
   };
 
   const user = await app.service("users").create(userInfo);

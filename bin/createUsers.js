@@ -2,6 +2,7 @@
 
 const yargs = require("yargs/yargs");
 const { hideBin } = require("yargs/helpers");
+const prompt = require("prompt");
 const generator = require("generate-password");
 const {
   uniqueNamesGenerator,
@@ -15,6 +16,8 @@ async function main() {
   const argv = yargs(hideBin(process.argv)).argv;
   const n = argv.n;
 
+  const result = await prompt.get(["invitationCode"]);
+
   for (let i = 0; i < n; i++) {
     let username = uniqueNamesGenerator({
       dictionaries: [colors, animals],
@@ -26,7 +29,7 @@ async function main() {
         length: 10,
         numbers: true,
       }),
-      invitationCode: "chang3m3",
+      invitationCode: result.invitationCode,
     };
     let user = await app.service("users").create(userInfo);
     console.log(user.username, "\t", userInfo.password);
